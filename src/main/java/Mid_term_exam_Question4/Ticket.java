@@ -33,7 +33,6 @@ public class Ticket {
     //Nhập thông tin vé từ console
     public Ticket inputTicket() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Input your ticket infomation:");
 
         //Tên chuyến bay
         System.out.print("- Flight name: ");
@@ -53,7 +52,7 @@ public class Ticket {
 
     //Xuất thông tin vé thành chuỗi (toString)
     public String printTiket() {
-        return "Name: " + getFlightName() + "\tDate: " + getFlightDate().toString() + "\tPrice: " + getPrice();
+        return "Name: " + getFlightName() + "\tDate: " + getFlightDate().toString() + "\tPrice: " + getPrice() + "\n";
     }
 
     //Nhập danh sách vé
@@ -71,13 +70,13 @@ public class Ticket {
 
     //Xuất danh sách vé
     public String printListTicket() {
-        System.out.println("Flight Name (From - To)             " + "Date(dd/MM/yy)    " + "Price");
         Ticket ticket = new Ticket();
         String listTicket = " ";
         for (int i = 0; i < inputListTicket().length; i++) {
             ticket = inputListTicket()[i];
             listTicket = listTicket + (i + 1) + ". " + ticket.getFlightName() + " " +
                     ticket.getFlightDate().toString() + " " + ticket.getPrice() + "\n";
+            System.out.println();
         }
         return listTicket;
     }

@@ -10,16 +10,16 @@ public class App {
         int quantity = input.nextInt();
 
         //Nhập thông tin danh sách hành khách theo số lượng
-        Passenger passenger = new Passenger();
-        Passenger[] listPassenger = new Passenger[quantity];
-        for (int i = 0; i < listPassenger.length; i++) {
-            listPassenger[i] = passenger.inputPassengerInfo();
-        }
+        System.out.println("Please input your personal infomation!");
+        Passenger[] listPassenger = Passenger.inputListPassenger(quantity);
 
-        //Hiển thị thông tin danh sách hành khách
-        passenger.printListPassenger(listPassenger);
+        //Hiển thị thông tin danh sách hành khách theo thứ tự nhập
+        System.out.println("===> Full list passenger");
+        Passenger.printListPassenger(listPassenger);
 
-
-
+        //Hiển thị thông tin danh sách hành khách theo giảm dần tổng giá vé
+        System.out.println("=======> List passenger sorted by ascending total ticket fee");
+        Passenger[] sortedList = listPassenger;
+        Passenger.sortPassengerByAscendingTotalFee(sortedList);
     }
 }

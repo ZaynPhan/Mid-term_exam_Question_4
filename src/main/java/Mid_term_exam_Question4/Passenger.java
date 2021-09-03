@@ -35,65 +35,86 @@ public class Passenger {
     }
 
     //Nhập thông tin hành khách
-    public Passenger inputPassengerInfo() {
+    public void inputPassengerInfo() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Please input your personal infomation!");
 
         System.out.print("- Full name: ");
         this.fullName = input.nextLine();
-        System.out.println();
 
         System.out.print("- Gender: ");
         this.gender = input.nextLine();
-        System.out.println();
 
         System.out.print("- Age: ");
         this.age = input.nextInt();
-        System.out.println();
 
         System.out.println("=====Ticket list=====");
-        Ticket ticket = new Ticket();
-        Ticket[] listTicket = ticket.inputListTicket();
-
-        return new Passenger(fullName, gender, age, listTicket);
+        System.out.print("Quantity of ticket: ");
+        int quantityOfTicket = input.nextInt();
+        Ticket[] listTicket = new Ticket[quantityOfTicket];
+        if (quantityOfTicket > 0) {
+            for (int i = 0; i < quantityOfTicket; i++) {
+                System.out.println("Ticket " + (i + 1));
+                listTicket[i] = new Ticket();
+                listTicket[i].inputTicket();
+            }
+        }
+        this.listTicket = listTicket;
     }
 
-
-    //Xuất thông tin khách hàng kèm vé
+    //Xuất thông tin khách hàng
     public String printPassengerInfo() {
-        Ticket ticket = new Ticket();
-        return "Name: " + getFullName() + "\tGender: " + getGender() +
-                "\tAge: " + getAge() + "\n" + ticket.printListTicket();
+        String passengerInfo = "";
+        passengerInfo += "Full name: " + this.fullName + "\nGender: " + this.gender + "\nAge: " + this.age + "\n=====Ticket list=====\n";
+        for (int i = 0; i < this.listTicket.length; i++) {
+            passengerInfo += (i + 1) + " " + this.listTicket[i].printTiket();
+        }
+        return passengerInfo;
+    }
+
+    //Tính tổng tiền vé mỗi người
+    public int totalTicketFee() {
+        int totalFee = 0;
+        for (int i = 0; i < this.listTicket.length; i++) {
+            totalFee += this.listTicket[i].getPrice();
+        }
+        return totalFee;
+    }
+
+    //Nhập danh sách khách hàng
+    public static Passenger[] inputListPassenger(int n) {
+        Passenger[] listPassenger = new Passenger[n];
+        for (int i = 0; i < n; i++) {
+            System.out.println("ID = " + (i + 1));
+            listPassenger[i] = new Passenger();
+            listPassenger[i].inputPassengerInfo();
+        }
+        return listPassenger;
     }
 
     //Xuất danh sách hành khách
-    public String printListPassenger(Passenger[] listPassenger) {
-        Passenger passenger = new Passenger();
-        Ticket ticket = new Ticket();
-        String list = " ";
+    public static void printListPassenger(Passenger[] listPassenger) {
         for (int i = 0; i < listPassenger.length; i++) {
-            passenger = listPassenger[i];
-            list = list + (i+1) + ". " + passenger.getFullName() + " " + passenger.getGender() + " " +
-                    passenger.getAge() + "Total ticket fee: " + ticket.getPrice() + "\n" + ticket.printListTicket() + "\n";
+            System.out.println(i + ". " + listPassenger[i].printPassengerInfo());
+            System.out.println("Total ticket fee: " + listPassenger[i].totalTicketFee());
+            System.out.println();
         }
-        return list;
     }
 
+    //Sắp xếp danh sách hành khách theo chiều giảm dần của Tổng tiền.
+    public static void sortPassengerByAscendingTotalFee(Passenger[] listPassenger) {
+        for (int i = 0; i < listPassenger.length - 1; i++) {
+            for (int j = i + 1; j < listPassenger.length; j++) {
+                if (listPassenger[j].totalTicketFee() > listPassenger[i].totalTicketFee()) {
+                    Passenger tmp = listPassenger[i];
+                    listPassenger[i] = listPassenger[j];
+                    listPassenger[j] = tmp;
+                }
+            }
+        }
 
-
-//    public Passenger[] sortByDescendingPrice(int quantity) {
-//        Passenger[] listPassenger = new Passenger[quantity];
-//
-//        for (int i = 0; i < listPassenger.length; i++) {
-//            if (listPassenger[i].getTotalPrice() > listPassenger[i].getTotalPrice(listPassenger)) {
-//                Passenger temp = listPassenger[i];
-//                listPassenger[i] = listPassenger[i + 1];
-//                listPassenger[i + 1] = temp;
-//            }
-//        }
-//        return listPassenger;
-//    }
-
-
-
+        for (int i = 0; i < listPassenger.length; i++) {
+            System.out.println("Customer " + (i + 1));
+            System.out.println(listPassenger[i].printPassengerInfo());
+        }
+    }
 }
